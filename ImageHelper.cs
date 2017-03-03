@@ -10,8 +10,8 @@ namespace Tcr.Sage.Services.BusinessServices {
 
          var image = new ImageSharp.Image(file);
 
-         var maxWidthInPixels = maxWidthInInches * image.MetaData.HorizontalResolution; //(image.Width / image.InchWidth);
-         var maxHeightInPixels = maxHeightInInches * image.MetaData.VerticalResolution; //(image.Height / image.InchHeight);
+         var maxWidthInPixels = maxWidthInInches * image.MetaData.HorizontalResolution;
+         var maxHeightInPixels = maxHeightInInches * image.MetaData.VerticalResolution;
 
          image.Resize(new ResizeOptions {
             Size = new ImageSharp.Size((int)maxWidthInPixels, (int)maxHeightInPixels),
@@ -19,15 +19,10 @@ namespace Tcr.Sage.Services.BusinessServices {
          });
          image.MetaData.Quality = 100;
          image.MetaData.ExifProfile = null;
-         image.MetaData.HorizontalResolution = 72;
-         image.MetaData.VerticalResolution = 72;
 
          var memStream = new MemoryStream();
-         //image.SaveAsJpeg(memStream, new JpegEncoderOptions() { IgnoreMetadata = false, Quality = 100});
+         
          image.Save(memStream);
-         //using (var output = File.OpenWrite("c:\\temp\\output.jpg")) {
-         //   image.Save(output);
-         //}
 
          memStream.Position = 0;
          return memStream;
